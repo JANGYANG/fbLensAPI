@@ -6,27 +6,27 @@ fbLens API 사용법 정리
 
 # 2. 주요 사항
 
-> ##  2.1 BaseURL
->        http://www.fblens.com/api/
+ ##  2.1 BaseURL
+        http://www.fblens.com/api/
 
-> ##  2.2 Request 및 Response
->>  ##### 2.2.1. 무조건 JSON 형태로 보내며 받을때도 JSON 형태로 받는다.
->>  ##### 2.2.2. Request 시의 Header 의 Content-Type 은 application/json 이어야 한다.
->>  ##### 2.2.3. 편의상 모든 request 는 Post 방식을 취한다. (원래는 REST에 맞춰 해야하지만, 빠른 개발과 실용성을 생각해서 그냥 POST를 쓰기로 했습니다...ㅠ)
+ ##  2.2 Request 및 Response
+  ##### 2.2.1. 무조건 JSON 형태로 보내며 받을때도 JSON 형태로 받는다.
+  ##### 2.2.2. Request 시의 Header 의 Content-Type 은 application/json 이어야 한다.
+  ##### 2.2.3. 편의상 모든 request 는 Post 방식을 취한다. (원래는 REST에 맞춰 해야하지만, 빠른 개발과 실용성을 생각해서 그냥 POST를 쓰기로 했습니다...ㅠ)
 
 # 3. 일반적인 사용법
->  ## 3.1. baseURL 뒤에 원하는 서비스에 해당하는 URI 를 덧붙인 곳으로 요청한다.
->  #### 예시
->  - http://www.fblens.com/api/SearchUser
->  - http://www.fblens.com/api/SearchTeam
->  - http://www.fblens.com/api/RegisterUser
+  ## 3.1. baseURL 뒤에 원하는 서비스에 해당하는 URI 를 덧붙인 곳으로 요청한다.
+  #### 예시
+  - http://www.fblens.com/api/SearchUser
+  - http://www.fblens.com/api/SearchTeam
+  - http://www.fblens.com/api/RegisterUser
 
-> ## 3.2 각 각의 사용법에 따른 데이터를 이름을 맞춰서 보낸다.(대소문자 구분)
+ ## 3.2 각 각의 사용법에 따른 데이터를 이름을 맞춰서 보낸다.(대소문자 구분)
     userName  --> OK!
     username  --> NO!
     user_name --> NO!
 
-> ## 3.3 Response 를 잘 활용한다!
+ ## 3.3 Response 를 잘 활용한다!
     response JSON 예시
     
     {
@@ -47,13 +47,12 @@ fbLens API 사용법 정리
 	}]
 }
 
-> ##  끝!
 # 4. 주의 사항
-> ### 4.1 ONLY POST!
+ ### 4.1 ONLY POST!
 
-> ### 4.2 ONLY JSON!
+ ### 4.2 ONLY JSON!
 
-> ### 4.3 ONLY CamelCase!
+ ### 4.3 ONLY CamelCase!
 
 ***
 # API
@@ -61,8 +60,8 @@ fbLens API 사용법 정리
 위의 언급사항을 주의하여 사용해주시기 바랍니다.
 
 ## SearchUser
-> ##### URI : SearchUser
-> ##### 목적 : 선수 단 한명을 검색
+ ##### URI : SearchUser
+ ##### 목적 : 선수 단 한명을 검색
 
   ##### Request
     userUID : String
@@ -108,11 +107,11 @@ fbLens API 사용법 정리
 ```
 
 ## SearchUsers
-> ##### URI : SearchUsers
-> ##### 목적 : 선수 여러명을 검색
-> ##### 비고
-> * 이름으로 검색하거나 지역으로 검색하여 여러명의 선수 목록을 얻고 싶을때 사용.
-> * 이름으로 검색시 정확히 일치 하지 않고, 글자 하나만 일치하더라도 검색됨.
+ ##### URI : SearchUsers
+ ##### 목적 : 조건에 맞는 여러명의 선수를 검색
+ ##### 비고
+ * 이름으로 검색하거나 지역으로 검색하여 여러명의 선수 목록을 얻고 싶을때 사용.
+ * 이름으로 검색시 정확히 일치 하지 않고, 글자 하나만 일치하더라도 검색됨.
   ##### Request
   ```
   userName : String
@@ -240,6 +239,117 @@ fbLens API 사용법 정리
 	"region": [{
 		"mainRegion": "제주도",
 		"subRegion": "제주시"
+	}]
+}]
+```
+
+## SearchTeam
+ ##### URI : SearchTeam
+ ##### 목적 : 단 한 팀만을 검색
+
+  ##### Request
+    teamUID : String
+  ##### Resonse
+    teamUID   : String
+    teamName  : String
+    teamBirth : String
+    captainUID: String
+    formation : Array
+    region    : JsonArray
+  #### Example
+  Request
+  ```
+  {
+    "teamUID" : "231ac76a-aac3-44e4-831c-6fba64a3e7e4"
+  }
+  ```
+ Response
+```
+{
+	"teamUID": "231ac76a-aac3-44e4-831c-6fba64a3e7e4",
+	"teamName": "데이터베이스",
+	"teamBirth": "2017",
+	"captainUID": "188bbe73-916f-401b-9502-5581869ecb13",
+	"formation": ["4-4-2", "3-4-1-2"],
+	"region": [{
+		"mainRegion": "인천광역시",
+		"subRegion": "남동구"
+	}, {
+		"mainRegion": "서울특별시",
+		"subRegion": "중구"
+	}]
+} 
+```
+
+## SearchTeams
+ ##### URI : SearchTeams
+ ##### 목적 : 조건에 해당하는 팀들을 검색
+ ##### 비고
+ * 이름으로 검색하거나 지역으로 검색하여 여러 개의 팀 목록을 얻고 싶을때 사용.
+ * 이름으로 검색시 정확히 일치 하지 않고, 글자 하나만 일치하더라도 검색됨.
+ * 현재는 검색시에 대소문자 구분하나, 대소문자 구분없이 검색 가능하도록 업데이트 할 예정.
+  ##### Request
+  ```
+  teamName : String
+  ```
+  or
+  ```
+  mainRegion  : String
+  subRegion   : String
+  ```
+  ##### Resonse
+  ```
+  //비고 위의 SearchTeam 에서 결과가 Array 형태로 옵니다.
+  ```
+  #### Example
+  Request
+  ```
+{
+	"teamName": "안"
+}
+  ```
+  ```
+  {
+    "TeamName" : "FC"
+  }
+  ```
+  ```
+  {
+    "mainRegion"  : "경기도",
+    "subRegion"   : "여주시"
+  }
+  ```
+  ```
+  {
+    "mainRegion"  : "서울특별시",
+    "subRegion"   : "중구"
+  }
+  ```
+ Response
+```
+//'안'로 검색했을시에 결과
+[{
+	"teamUID": "4494fe1b-a8a5-4dee-8ee0-af2b8f6acaa0",
+	"teamName": "부러진안경",
+	"teamBirth": "2015",
+	"captainUID": "79045c6e-eb1f-4850-aec8-0ae8b9ff8871",
+	"formation": ["4-4-2", "4-3-3"],
+	"region": [{
+		"mainRegion": "서울특별시",
+		"subRegion": "중구"
+	}, {
+		"mainRegion": "강원도",
+		"subRegion": "원주시"
+	}]
+}, {
+	"teamUID": "daa77e1a-1592-4fe9-97c8-4ed1fe020581",
+	"teamName": "딱딱한안경",
+	"teamBirth": "1987",
+	"captainUID": "3fd93e07-4072-40e6-bcc7-57e6afdb61fd",
+	"formation": ["3-4-1-2"],
+	"region": [{
+		"mainRegion": "서울특별시",
+		"subRegion": "강남구"
 	}]
 }]
 ```
