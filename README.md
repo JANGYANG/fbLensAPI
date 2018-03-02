@@ -21,13 +21,16 @@ fbLens API 사용법 정리
   - http://www.fblens.com/api/SearchTeam
   - http://www.fblens.com/api/RegisterUser
 
- ## 3.2 각 각의 사용법에 따른 데이터를 이름을 맞춰서 보낸다.(대소문자 구분)
+ ## 3.2 데이터를 보낼 때, 이름은 꼭 정해진 규칙을 따른다.(대소문자 구분)
     userName  --> OK!
+
     username  --> NO!
     user_name --> NO!
 
  ## 3.3 Response 를 잘 활용한다!
-    response JSON 예시
+    //response JSON 예시
+    //java 언어 사용시에는 JsonObject 객체를 사용하거나,
+    //JavaScript 사용시에는 잘 받는다!(JavaScript는 걍 변수에 저장하면 지가 알아서 제이슨 객체화(?)됨)
     
     {
 	"userUID": "188bbe73-916f-401b-9502-5581869ecb13",
@@ -151,7 +154,7 @@ fbLens API 사용법 정리
   ```
  Response
 ```
-//'이'로 검색했을시에 결과
+// 사람 이름 '이'로 검색했을시에 결과
 [{
 	"userUID": "188bbe73-916f-401b-9502-5581869ecb13",
 	"userName": "데이터베이스",
@@ -327,7 +330,7 @@ fbLens API 사용법 정리
   ```
  Response
 ```
-//'안'로 검색했을시에 결과
+// 팀이름 '안'로 검색했을시에 결과
 [{
 	"teamUID": "4494fe1b-a8a5-4dee-8ee0-af2b8f6acaa0",
 	"teamName": "부러진안경",
