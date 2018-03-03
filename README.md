@@ -7,7 +7,7 @@ fbLens API 사용법 정리
 # 2. 주요 사항
 
  ##  2.1 BaseURL
-        http://www.fblens.com/api/
+    http://www.fblens.com/api/
 
  ##  2.2 Request 및 Response
   ##### 2.2.1. 무조건 JSON 형태로 보내며 받을때도 JSON 형태로 받는다.
@@ -356,3 +356,99 @@ fbLens API 사용법 정리
 	}]
 }]
 ```
+
+## Check Email (이메일 중복체크)
+ ##### URI : RegisterUser
+ ##### 목적 : 이메일 중복 체크
+ ##### 비고
+ * 중복이면 결과값이 TRUE, 중복이 아니면 FALSE
+ * 이메일 유효성 검사를 서버단에서 하지 않기 때문에 프론트에서 이메일 유효성 검사 해야함
+ * 회원가입과 요청 URL 이 같음
+  ##### Request
+    email : String
+  ##### Resonse
+  ```
+  error : Boolean
+  ```
+  #### Example
+  Request
+  ```
+  {
+    "email" : "test@broken-glasses.com"
+  }
+  ```
+ Response
+ ```
+ //이메일 중복 시
+ {
+	"error": true,
+  }
+ ```
+```
+//이메일 중복 아닐 시
+{
+  "error": false
+}
+```
+
+## Register User (회원가입)
+ ##### URI : RegisterUser
+ ##### 목적 : 이메일 중복 체크
+ ##### 비고
+ * 회원 가입 성공 시, error 값이 FALSE.
+ * 이메일 중복체크와 요청 URL 이 같음
+ * 회원가입 과정중에는 따로 이메일 중복 체크를 진행하지 않기에 프론트에서 중복체크가 이미 진행되어 중복되지 않는 이메일을 보내주어야 합니다.
+  ##### Request
+    email     : String
+    password  : String
+    userName  : String
+    birth     : String
+    region    : JsonArray
+    height    : int
+    weight    : int
+    position  : Array
+    job       : String
+  ##### Resonse
+  ```
+  error   : Boolean
+  userUID : String    //가입 실패 시에는 이 값은 가지 않습니다.
+  ```
+  #### Example
+  Request
+  ```
+  {
+	"email" : "tst001@tst001.com",
+	"password" : "tst001",
+	"userName" : "리눅스",
+	"birth" : "1992.5.2",
+	"region" : [
+      {"mainRegion" : "서울특별시", "subRegion" : "강남구"},
+      {"mainRegion" : "서울특별시", "subRegion" : "중구"}]
+    ]
+	"height" : 190,
+	"weight" : 81,
+	"position" : ["FW","GK"],
+	"job" : "운영체제"
+}
+  ```
+ Response
+ ```
+ //회원 가입 성공 시
+ {
+	"error": false,
+	"userUID": "7fe6c7bc-7a5c-4520-916a-32689fbd244c"
+}
+ ```
+```
+//회원 가입 실패시 
+//일반적으로 회원가입 실패 시에는 이렇게 error 가 트루로 가기 보다는 500 내부 서버 에러가 날 것입니다.
+{
+  "error": true
+}
+```
+
+***
+#업데이트 예정
+- access token
+- ssl
+- 등등 많음
